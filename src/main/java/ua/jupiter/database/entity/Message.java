@@ -1,17 +1,15 @@
 package ua.jupiter.database.entity;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@JsonAutoDetect
-@Data
 @Entity
-@Table
+@Table(name = "message")
+@Data
+@JsonAutoDetect
 public class Message {
 
     @Id
