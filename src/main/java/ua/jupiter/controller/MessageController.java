@@ -3,6 +3,8 @@ package ua.jupiter.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import ua.jupiter.database.entity.Message;
 import ua.jupiter.database.entity.View;
@@ -48,5 +50,11 @@ public class MessageController {
     public void delete(@PathVariable("id") Message message) {
 
         messageRepository.delete(message);
+    }
+
+    @MessageMapping("/changeMessage")
+    @SendTo("/topic/activity")
+    public Message change(Message message) {
+        return messageRepository.save(message);
     }
 }
