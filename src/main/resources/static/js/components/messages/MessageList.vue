@@ -6,14 +6,14 @@
                  :message="message"
                  :editMessage="editMessage"
                  :deleteMessage="deleteMessage"
-                 :messages="messages" />1
+                 :messages="messages" />
   </v-layout>
 </template>
 
 <script>
 import MessageRow from 'components/messages/MessageRow.vue'
 import MessageForm from 'components/messages/MessageForm.vue'
-
+import messagesApi from 'api/messages'
 export default {
   props: ['messages'],
   components: {
@@ -35,7 +35,7 @@ export default {
       this.message = message
     },
     deleteMessage(message) {
-      this.$resource('/message{/id}').remove({id: message.id}).then(result => {
+      messagesApi.remove(message.id).then(result => {
         if (result.ok) {
           this.messages.splice(this.messages.indexOf(message), 1)
         }
@@ -46,5 +46,5 @@ export default {
 </script>
 
 <style>
-
 </style>
+Footer
