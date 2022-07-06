@@ -15,22 +15,24 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    private final MessageRepository messageRepo;
+    private final MessageRepository messageRepository;
 
     @Value("${spring.profiles.active}")
     private String profile;
 
     @Autowired
     public MainController(MessageRepository messageRepo) {
-        this.messageRepo = messageRepo;
+        this.messageRepository = messageRepo;
     }
 
     @GetMapping
     public String main(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
 
-        data.put("profile", user);
-        data.put("messages", messageRepo.findAll());
+        if (user != null) {
+            data.put("profile", user);
+            data.put("messages", messageRepository.findAll());
+        }
 
         model.addAttribute("frontendData", data);
         model.addAttribute("isDevMode", "dev".equals(profile));
