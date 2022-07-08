@@ -33,6 +33,9 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor ('org.projectlombok:lombok')
 
+//	JSoup
+	implementation 'org.jsoup:jsoup:1.11.3'
+
 //	Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
