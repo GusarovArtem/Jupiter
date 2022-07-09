@@ -12,14 +12,15 @@ import java.util.List;
 @ToString(of = {"id", "text"})
 @EqualsAndHashCode(of = {"id"})
 @Data
-@JsonAutoDetect
+@JsonIdentityInfo(
+        property = "id",
+        generator = ObjectIdGenerators.PropertyGenerator.class
+)
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(View.Id.class)
     private Long id;
-
-    @Column(length = 1000)
     @JsonView(View.IdName.class)
     private String text;
 

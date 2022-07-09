@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "usr")
 @Data
-@JsonAutoDetect
 public class User implements Serializable {
     @Id
     @JsonView(View.IdName.class)
