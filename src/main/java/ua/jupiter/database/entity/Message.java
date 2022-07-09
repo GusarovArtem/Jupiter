@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table
@@ -17,6 +18,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(View.Id.class)
     private Long id;
+
     @Column(length = 1000)
     @JsonView(View.IdName.class)
     private String text;
@@ -25,6 +27,15 @@ public class Message {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonView(View.FullMessage.class)
     private LocalDateTime creationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonView(View.FullMessage.class)
+    private User author;
+
+    @OneToMany(mappedBy = "message", orphanRemoval = true)
+    @JsonView(View.FullMessage.class)
+    private List<Comment> comments;
 
     @JsonView(View.FullMessage.class)
     private String link;

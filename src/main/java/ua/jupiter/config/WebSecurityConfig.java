@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import ua.jupiter.database.entity.User;
-import ua.jupiter.database.repository.UserDetailsRepo;
+import ua.jupiter.database.repository.UserDetailsRepository;
 
 import java.time.LocalDateTime;
 
@@ -31,10 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PrincipalExtractor principalExtractor(UserDetailsRepo userDetailsRepo) {
+    public PrincipalExtractor principalExtractor(UserDetailsRepository userDetailsRepository) {
         return map -> {
             String id = (String) map.get("sub");
-            User user = userDetailsRepo.findById(id).orElseGet(() -> {
+            User user = userDetailsRepository.findById(id).orElseGet(() -> {
                 User newUser = new User();
 
                 newUser.setId(id);
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             user.setLastVisit(LocalDateTime.now());
 
-            return userDetailsRepo.save(user);
+            return userDetailsRepository.save(user);
         };
     }
 }

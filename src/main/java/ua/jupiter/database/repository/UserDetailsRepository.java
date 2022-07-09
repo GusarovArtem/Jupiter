@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ua.jupiter.database.entity.User;
 
 @Repository
-public interface UserDetailsRepo extends JpaRepository<User, String> {
+public interface UserDetailsRepository extends JpaRepository<User, String> {
 }

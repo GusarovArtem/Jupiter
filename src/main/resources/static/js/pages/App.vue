@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-toolbar-title>Sarafan</v-toolbar-title>
+      <v-toolbar-title>Jupiter</v-toolbar-title>
       <v-btn flat
              v-if="profile"
              :disabled="$route.path === '/'"
