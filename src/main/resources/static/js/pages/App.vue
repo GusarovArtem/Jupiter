@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-toolbar app>
+      <img src="/images/jupiter-logos/jupiter-logo-4.png" type="image/x-icon" class="icon" style="height: 65%;" alt=""/>
       <v-toolbar-title>Jupiter</v-toolbar-title>
       <v-btn flat
              v-if="profile"
@@ -11,7 +12,7 @@
       <v-spacer></v-spacer>
       <v-btn flat
              v-if="profile"
-             :disabled="$route.path === '/profile'"
+             :disabled="$route.path === '/user'"
              @click="showProfile">
         {{profile.name}}
       </v-btn>
@@ -28,7 +29,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { addHandler } from 'util/ws'
-
 export default {
   computed: mapState(['profile']),
   methods: {
@@ -42,7 +42,7 @@ export default {
       this.$router.push('/')
     },
     showProfile() {
-      this.$router.push('/profile')
+      this.$router.push('/user')
     }
   },
   created() {
@@ -83,5 +83,4 @@ export default {
 </script>
 
 <style>
-
 </style>
