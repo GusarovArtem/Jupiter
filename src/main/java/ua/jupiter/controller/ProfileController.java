@@ -14,6 +14,7 @@ import ua.jupiter.service.ProfileService;
 public class ProfileController {
     private final ProfileService profileService;
 
+
     @GetMapping("{id}")
     @JsonView(View.FullProfile.class)
     public User get(@PathVariable("id") User user) {

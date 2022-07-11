@@ -15,7 +15,6 @@ import ua.jupiter.service.MessageService;
 
 import java.io.IOException;
 
-
 @RestController
 @RequestMapping("message")
 @RequiredArgsConstructor
@@ -24,13 +23,13 @@ public class MessageController {
 
     private final MessageService messageService;
 
-
     @GetMapping
     @JsonView(View.FullMessage.class)
     public MessagePageDto list(
+            @AuthenticationPrincipal User user,
             @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return messageService.findAll(pageable);
+        return messageService.findForUser(pageable, user);
     }
 
     @GetMapping("{id}")
