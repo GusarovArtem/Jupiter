@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       text: '',
-      id: null
+      id: ''
     }
   },
   watch: {
@@ -44,7 +44,7 @@ export default {
       }
 
       this.text = ''
-      this.id = null
+      this.id = ''
     }
   }
 }

@@ -52,6 +52,7 @@ public class MessageService {
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, View.IdName.class);
     }
 
+
     private void fillMeta(Message message) throws IOException {
         String text = message.getText();
         Matcher matcher = URL_REGEX.matcher(text);
@@ -122,6 +123,7 @@ public class MessageService {
     public MessagePageDto findForUser(Pageable pageable, User user) {
         List<User> channels = userSubscriptionRepository.findBySubscriber(user)
                 .stream()
+                .filter(UserSubscription::isActive)
                 .map(UserSubscription::getChannel)
                 .collect(Collectors.toList());
 

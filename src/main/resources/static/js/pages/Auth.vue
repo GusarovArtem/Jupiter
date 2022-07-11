@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    Please sign in with
+    Необходимо авторизоваться через
     <a href="/login">Google</a>
   </v-container>
 </template>

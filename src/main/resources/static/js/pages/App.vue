@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <img src="/images/jupiter-logos/jupiter-logo-4.png" type="image/x-icon" class="icon" style="height: 65%;" alt=""/>
       <v-toolbar-title>Jupiter</v-toolbar-title>
       <v-btn flat
              v-if="profile"
@@ -29,6 +28,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { addHandler } from 'util/ws'
+
 export default {
   computed: mapState(['profile']),
   methods: {
@@ -83,4 +83,5 @@ export default {
 </script>
 
 <style>
+
 </style>
