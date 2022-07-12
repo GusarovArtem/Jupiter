@@ -28,6 +28,9 @@ dependencies {
 //	Websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+//	Sentry
+	implementation 'io.sentry:sentry-spring:1.7.16'
+
 //	Lombok
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor ('org.projectlombok:lombok')

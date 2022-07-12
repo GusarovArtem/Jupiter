@@ -19,6 +19,7 @@ import java.io.IOException;
 @RequestMapping("message")
 @RequiredArgsConstructor
 public class MessageController {
+
     public static final int MESSAGES_PER_PAGE = 3;
 
     private final MessageService messageService;
@@ -39,6 +40,7 @@ public class MessageController {
     }
 
     @PostMapping
+    @JsonView(View.FullMessage.class)
     public Message create(
             @RequestBody Message message,
             @AuthenticationPrincipal User user
@@ -47,6 +49,7 @@ public class MessageController {
     }
 
     @PutMapping("{id}")
+    @JsonView(View.FullMessage.class)
     public Message update(
             @PathVariable("id") Message messageFromDb,
             @RequestBody Message message
@@ -58,4 +61,5 @@ public class MessageController {
     public void delete(@PathVariable("id") Message message) {
         messageService.delete(message);
     }
+
 }
