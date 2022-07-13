@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/jupiter}
-    username: ${SPRING_DATASOURCE_USERANAME:artem}
+    username: ${SPRING_DATASOURCE_USERNAME:artem}
     password: ${SPRING_DATASOURCE_PASSWORD:admin-am}
   jpa:
     generate-ddl: true
