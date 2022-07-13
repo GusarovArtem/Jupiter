@@ -38,3 +38,6 @@ out/
 /gradle/
 
 /src/main/resources/static/js/
+
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
