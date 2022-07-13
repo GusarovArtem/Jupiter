@@ -8,6 +8,7 @@ import ua.jupiter.database.repository.UserDetailsRepository;
 import ua.jupiter.database.repository.UserSubscriptionRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class ProfileService {
                 .stream()
                 .filter(subscription ->
                         subscription.getSubscriber().equals(subscriber)
-                ).toList();
+                ).collect(Collectors.toList());
 
         if (subscriptions.isEmpty()) {
             UserSubscription subscription = new UserSubscription(channel, subscriber);
