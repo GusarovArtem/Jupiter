@@ -10,6 +10,10 @@ apply plugin: 'com.github.node-gradle.node'
 group = 'ua.jupiter'
 version = '0.0.1-SNAPSHOT'
 
+jar {
+	enabled = false
+}
+
 task buildFront(type: YarnTask) {
 	args = ['build']
 }
@@ -24,6 +28,13 @@ repositories {
 
 node {
 	download = true
+	version = "12.13.1"
+	npmVersion = "6.9.0"
+	yarnVersion = "1.17.3"
+	nodeModulesDir = project.file("ui")
+	workDir = project.file("${project.buildDir}/nodejs")
+	npmWorkDir = project.file("${project.buildDir}/npm")
+	yarnWorkDir = project.file("${project.buildDir}/yarn")
 }
 
 dependencies {
