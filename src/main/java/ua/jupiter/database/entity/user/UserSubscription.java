@@ -1,7 +1,8 @@
-package ua.jupiter.database.entity;
+package ua.jupiter.database.entity.user;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
 

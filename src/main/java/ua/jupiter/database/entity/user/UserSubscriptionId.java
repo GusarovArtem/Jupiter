@@ -1,9 +1,10 @@
-package ua.jupiter.database.entity;
+package ua.jupiter.database.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.jupiter.database.entity.View;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
