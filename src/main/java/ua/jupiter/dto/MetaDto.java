@@ -8,7 +8,10 @@ import lombok.Data;
 @JsonAutoDetect
 @AllArgsConstructor
 public class MetaDto {
+
     private String title;
+
     private String description;
+
     private String cover;
 }
