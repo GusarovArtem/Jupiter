@@ -1,7 +1,9 @@
-package ua.jupiter.database.entity;
+package ua.jupiter.database.entity.message;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import ua.jupiter.database.entity.user.User;
+import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

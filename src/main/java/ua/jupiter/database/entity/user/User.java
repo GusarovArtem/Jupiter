@@ -1,4 +1,4 @@
-package ua.jupiter.database.entity;
+package ua.jupiter.database.entity.user;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
