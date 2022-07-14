@@ -1,5 +1,6 @@
 package ua.jupiter.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -13,5 +14,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerCustomizer() {
         return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

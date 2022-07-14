@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ua.jupiter.database.entity.User;
-import ua.jupiter.database.entity.UserSubscription;
+import ua.jupiter.database.entity.user.User;
+import ua.jupiter.database.entity.user.UserSubscription;
 import ua.jupiter.database.entity.View;
 import ua.jupiter.service.ProfileService;
 

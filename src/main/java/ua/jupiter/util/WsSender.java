@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import ua.jupiter.dto.EventType;
-import ua.jupiter.dto.ObjectType;
+import ua.jupiter.database.entity.EventType;
+import ua.jupiter.database.entity.ObjectType;
 import ua.jupiter.dto.WsEventDto;
 
 import java.util.function.BiConsumer;

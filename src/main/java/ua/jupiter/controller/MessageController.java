@@ -7,13 +7,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ua.jupiter.database.entity.Message;
-import ua.jupiter.database.entity.User;
 import ua.jupiter.database.entity.View;
+import ua.jupiter.database.entity.message.Message;
+import ua.jupiter.database.entity.user.User;
 import ua.jupiter.dto.MessagePageDto;
-import ua.jupiter.service.MessageService;
-
-import java.io.IOException;
+import ua.jupiter.dto.create.MessageCreateEditDto;
+import ua.jupiter.dto.read.MessageReadDto;
+import ua.jupiter.service.implementation.MessageServiceImpl;
 
 @RestController
 @RequestMapping("message")
@@ -22,7 +22,7 @@ public class MessageController {
 
     public static final int MESSAGES_PER_PAGE = 3;
 
-    private final MessageService messageService;
+    private final MessageServiceImpl messageService;
 
     @GetMapping
     @JsonView(View.FullMessage.class)
@@ -41,25 +41,25 @@ public class MessageController {
 
     @PostMapping
     @JsonView(View.FullMessage.class)
-    public Message create(
-            @RequestBody Message message,
+    public MessageReadDto createMessage(
+            @RequestBody MessageCreateEditDto message,
             @AuthenticationPrincipal User user
-    ) throws IOException {
-        return messageService.create(message, user);
+    ) {
+        return messageService.createMessage(message);
     }
 
     @PutMapping("{id}")
     @JsonView(View.FullMessage.class)
-    public Message update(
+    public MessageReadDto updateMessage(
             @PathVariable("id") Message messageFromDb,
-            @RequestBody Message message
-    ) throws IOException {
-        return messageService.update(messageFromDb, message);
+            @RequestBody MessageCreateEditDto message
+    ) {
+        return messageService.updateMessage(messageFromDb.getId(), message).get();
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Message message) {
-        messageService.delete(message);
+    public void deleteMessage(@PathVariable("id") Message message) {
+        messageService.deleteMessage(message.getId());
     }
 
 }

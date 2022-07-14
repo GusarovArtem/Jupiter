@@ -31,9 +31,8 @@ node {
 }
 
 dependencies {
-//	Spring base dependencies
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//	ModelMapper
+	implementation 'org.modelmapper:modelmapper:2.1.1'
 
 //	DB
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -52,13 +51,20 @@ dependencies {
 //	Lombok
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor ('org.projectlombok:lombok')
-	compileOnly 'org.projectlombok:lombok:1.18.8'
+	compileOnly 'org.projectlombok:lombok'
 
 //	JSoup
 	implementation 'org.jsoup:jsoup:1.14.3'
 
 //	Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+// Javax Validation
+	implementation 'javax.validation:validation-api'
+
+//	Spring base dependencies
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 //	Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

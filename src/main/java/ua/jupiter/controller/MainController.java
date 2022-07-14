@@ -4,11 +4,6 @@ package ua.jupiter.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import ua.jupiter.database.entity.User;
-import ua.jupiter.database.entity.View;
-import ua.jupiter.dto.MessagePageDto;
-import ua.jupiter.database.repository.UserDetailsRepository;
-import ua.jupiter.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -18,14 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ua.jupiter.database.entity.View;
+import ua.jupiter.database.entity.user.User;
+import ua.jupiter.database.repository.UserRepository;
+import ua.jupiter.dto.MessagePageDto;
+import ua.jupiter.service.implementation.MessageServiceImpl;
 
 import java.util.HashMap;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
-    private final MessageService messageService;
-    private final UserDetailsRepository userDetailsRepository;
+    private final MessageServiceImpl messageService;
+    private final UserRepository userRepository;
 
     @Value("${spring.profiles.active:prod}")
     private String profile;
@@ -33,9 +33,9 @@ public class MainController {
     private final ObjectWriter profileWriter;
 
     @Autowired
-    public MainController(MessageService messageService, UserDetailsRepository userDetailsRepository, ObjectMapper mapper) {
+    public MainController(MessageServiceImpl messageService, UserRepository userRepository, ObjectMapper mapper) {
         this.messageService = messageService;
-        this.userDetailsRepository = userDetailsRepository;
+        this.userRepository = userRepository;
 
         ObjectMapper objectMapper = mapper
                 .setConfig(mapper.getSerializationConfig());
@@ -54,7 +54,7 @@ public class MainController {
         HashMap<Object, Object> data = new HashMap<>();
 
         if (user != null) {
-            User userFromDb = userDetailsRepository.findById(user.getId()).get();
+            User userFromDb = userRepository.findById(user.getId()).get();
             String serializedProfile = profileWriter.writeValueAsString(userFromDb);
             model.addAttribute("profile", serializedProfile);
 
