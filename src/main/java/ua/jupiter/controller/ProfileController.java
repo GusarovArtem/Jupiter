@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.jupiter.database.entity.View;
 import ua.jupiter.database.entity.user.User;
 import ua.jupiter.database.entity.user.UserSubscription;
-import ua.jupiter.service.interfaces.ProfileService;
+import ua.jupiter.service.implementation.ProfileServiceImpl;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("profile")
 @RequiredArgsConstructor
 public class ProfileController {
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileService;
 
 
     @GetMapping("{id}")

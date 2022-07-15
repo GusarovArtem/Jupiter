@@ -3,9 +3,7 @@ package ua.jupiter.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ua.jupiter.database.entity.View;
@@ -14,6 +12,7 @@ import ua.jupiter.database.entity.user.User;
 import ua.jupiter.dto.MessagePageDto;
 import ua.jupiter.dto.create.MessageCreateEditDto;
 import ua.jupiter.dto.read.MessageReadDto;
+import ua.jupiter.dto.read.UserReadDto;
 import ua.jupiter.service.implementation.MessageServiceImpl;
 
 @RestController
@@ -28,8 +27,7 @@ public class MessageController {
     @GetMapping
     @JsonView(View.FullMessage.class)
     public MessagePageDto list(
-            @AuthenticationPrincipal User user,
-            @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
+            @AuthenticationPrincipal User user
     ) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
@@ -47,8 +45,10 @@ public class MessageController {
     @JsonView(View.FullMessage.class)
     public Message createMessage(
             @RequestBody MessageCreateEditDto message,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal UserReadDto user
     ) {
+        message.setAuthor(user);
+
         return messageService.createMessage(message);
     }
 

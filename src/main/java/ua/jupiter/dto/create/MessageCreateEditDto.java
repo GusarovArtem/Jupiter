@@ -1,16 +1,16 @@
 package ua.jupiter.dto.create;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ua.jupiter.dto.read.UserReadDto;
 
 @Data
-@Value
-@Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class MessageCreateEditDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)public class MessageCreateEditDto {
 
     String id;
 
