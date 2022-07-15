@@ -2,9 +2,11 @@ package ua.jupiter.dto.create;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 import ua.jupiter.dto.read.UserReadDto;
 
+@Data
 @Value
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)

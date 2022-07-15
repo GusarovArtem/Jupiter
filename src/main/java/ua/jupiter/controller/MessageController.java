@@ -2,6 +2,7 @@ package ua.jupiter.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,7 +31,10 @@ public class MessageController {
             @AuthenticationPrincipal User user,
             @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return messageService.findForUser(pageable, user);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
+
+        return messageService.findAllUserMessages(pageRequest, user.getId());
     }
 
     @GetMapping("{id}")
@@ -41,7 +45,7 @@ public class MessageController {
 
     @PostMapping
     @JsonView(View.FullMessage.class)
-    public MessageReadDto createMessage(
+    public Message createMessage(
             @RequestBody MessageCreateEditDto message,
             @AuthenticationPrincipal User user
     ) {
@@ -52,7 +56,7 @@ public class MessageController {
     @JsonView(View.FullMessage.class)
     public MessageReadDto updateMessage(
             @PathVariable("id") Message messageFromDb,
-            @RequestBody MessageCreateEditDto message
+            @RequestBody MessageReadDto message
     ) {
         return messageService.updateMessage(messageFromDb.getId(), message).get();
     }

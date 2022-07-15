@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.jupiter.database.entity.EventType;
@@ -14,10 +13,7 @@ import ua.jupiter.database.entity.ObjectType;
 import ua.jupiter.database.entity.View;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.database.entity.user.UserSubscription;
 import ua.jupiter.database.repository.MessageRepository;
-import ua.jupiter.database.repository.SubscriptionRepository;
-import ua.jupiter.dto.MessagePageDto;
 import ua.jupiter.dto.create.MessageCreateEditDto;
 import ua.jupiter.dto.read.MessageReadDto;
 import ua.jupiter.service.interfaces.MessageService;
@@ -37,7 +33,6 @@ public class MessageServiceImpl implements MessageService {
 
     private final MetaContentService metaService;
     private final ModelMapper modelMapper;
-    private final SubscriptionRepository subscriptionRepository;
     private final MessageRepository messageRepository;
     private final BiConsumer<EventType, MessageReadDto> wsSender;
 
@@ -46,13 +41,11 @@ public class MessageServiceImpl implements MessageService {
             MessageRepository messageRepository,
             MetaContentService metaService,
             ModelMapper modelMapper,
-            SubscriptionRepository subscriptionRepository,
             WsSender wsSender
     ) {
         this.messageRepository = messageRepository;
         this.metaService = metaService;
         this.modelMapper= modelMapper;
-        this.subscriptionRepository = subscriptionRepository;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, View.FullComment.class);
     }
 
@@ -61,25 +54,6 @@ public class MessageServiceImpl implements MessageService {
         Page<User> messages = messageRepository.findByAuthorIdIn(usersId, pageable);
         return messages.stream().map(modelMapper -> messages).collect(Collectors.toList());
     }
-
-    public MessagePageDto findForUser(Pageable pageable, User user) {
-        List<User> channels = subscriptionRepository.findBySubscriber(user)
-                .stream()
-                .filter(UserSubscription::isActive)
-                .map(UserSubscription::getChannel)
-                .collect(Collectors.toList());
-
-        channels.add(user);
-
-        Page<Message> page = messageRepository.findByAuthorIdIn(channels, );
-
-        return new MessagePageDto(
-                page.getContent(),
-                pageable.getPageNumber(),
-                page.getTotalPages()
-        );
-    }
-
 
     @Transactional
     @Override
@@ -98,8 +72,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Optional<MessageReadDto> getMessageById(Long messageId) {
-        return messageRepository.findById(messageId).map(modelMapper -> (message, Message.class));
+    public Message getMessageById(Long messageId) {
+        return messageRepository.findById(messageId).orElse(null);
     }
 
 
@@ -108,10 +82,7 @@ public class MessageServiceImpl implements MessageService {
     public boolean deleteMessage(Long messageId) {
         return messageRepository.findById(messageId)
                 .map(entity -> {
-                    messageRepository.delete(entity);
-                    messageRepository.flush();
-                    MessageReadDto messageReadDto = modelMapper.map(entity);
-                    wsSender.accept(EventType.REMOVE, messageReadDto);
+                    messageRepository.deleteById(messageId);
                     return true;
                 })
                 .orElse(false);
@@ -122,7 +93,6 @@ public class MessageServiceImpl implements MessageService {
     public Message createMessage(MessageCreateEditDto messageDto) {
         return Objects.requireNonNull(Optional.of(messageDto)
                 .map(message -> modelMapper.map(message, Message.class))
-//                .map(messageRepository::saveAndFlush)
                 .map(message -> modelMapper.map(message, Message.class))
                 .map(savedMessage -> {
                     metaService.fillMeta(savedMessage);

@@ -8,8 +8,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.dto.MetaDto;
-import ua.jupiter.dto.create.MessageCreateEditDto;
-import ua.jupiter.dto.read.MessageReadDto;
 import ua.jupiter.service.interfaces.MetaContentService;
 
 import java.util.regex.Matcher;

@@ -1,10 +1,12 @@
 package ua.jupiter.service.interfaces;
 
+import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.dto.MetaDto;
 
 import java.io.IOException;
 
+@Service
 public interface MetaContentService {
 
     void fillMeta(Message message);

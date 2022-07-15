@@ -1,13 +1,13 @@
 package ua.jupiter.service.interfaces;
 
 
+import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.dto.read.UserReadDto;
 
+@Service
 public interface UserService {
-
-    User getUser(UserReadDto userReadDto);
 
     User create(User user);
 
+    User findById(String id);
 }
