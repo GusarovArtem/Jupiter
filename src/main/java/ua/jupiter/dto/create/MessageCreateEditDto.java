@@ -10,7 +10,8 @@ import ua.jupiter.dto.read.UserReadDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)public class MessageCreateEditDto {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class MessageCreateEditDto {
 
     String id;
 

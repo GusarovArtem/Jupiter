@@ -2,18 +2,20 @@ package ua.jupiter.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ua.jupiter.database.entity.View;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.dto.MessagePageDto;
 import ua.jupiter.dto.create.MessageCreateEditDto;
 import ua.jupiter.dto.read.MessageReadDto;
 import ua.jupiter.dto.read.UserReadDto;
 import ua.jupiter.service.implementation.MessageServiceImpl;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("message")
@@ -26,13 +28,12 @@ public class MessageController {
 
     @GetMapping
     @JsonView(View.FullMessage.class)
-    public MessagePageDto list(
-            @AuthenticationPrincipal User user
+    public List<MessageReadDto> list(
+            @AuthenticationPrincipal User user,
+            Pageable pageable
     ) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
 
-        return messageService.findAllUserMessages(pageRequest, user.getId());
+        return messageService.findAllByAuthor(user, pageable);
     }
 
     @GetMapping("{id}")
@@ -61,9 +62,13 @@ public class MessageController {
         return messageService.updateMessage(messageFromDb.getId(), message).get();
     }
 
-    @DeleteMapping("{id}")
-    public void deleteMessage(@PathVariable("id") Message message) {
-        messageService.deleteMessage(message.getId());
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable("id") Long id
+    ) {
+        if (!messageService.deleteMessage(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

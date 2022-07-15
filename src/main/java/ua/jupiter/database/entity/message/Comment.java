@@ -7,9 +7,12 @@ import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = { "id" })
 public class Comment {
     @Id

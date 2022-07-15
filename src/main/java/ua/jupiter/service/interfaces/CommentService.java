@@ -8,5 +8,5 @@ import ua.jupiter.dto.read.CommentReadDto;
 public interface CommentService {
     CommentReadDto createComment(CommentCreateEditDto comment);
 
-    boolean deleteMessage(Long commentId);
+    boolean deleteComment(Long commentId);
 }

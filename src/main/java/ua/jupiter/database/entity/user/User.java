@@ -3,9 +3,7 @@ package ua.jupiter.database.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
@@ -13,9 +11,13 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Data
 @Entity
 @Table(name = "usr")
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = { "id" })
 @ToString(of = { "id", "name" })
 public class User {

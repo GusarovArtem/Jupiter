@@ -9,11 +9,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+@Data
 @Entity
 @Table
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(of = {"id", "text"})
 @EqualsAndHashCode(of = {"id"})
-@Data
 @JsonIdentityInfo(
         property = "id",
         generator = ObjectIdGenerators.PropertyGenerator.class

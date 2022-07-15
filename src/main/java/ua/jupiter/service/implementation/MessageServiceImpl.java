@@ -4,6 +4,7 @@ package ua.jupiter.service.implementation;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import ua.jupiter.database.repository.MessageRepository;
 import ua.jupiter.dto.create.MessageCreateEditDto;
 import ua.jupiter.dto.read.MessageReadDto;
 import ua.jupiter.service.interfaces.MessageService;
-import ua.jupiter.service.interfaces.MetaContentService;
 import ua.jupiter.util.WsSender;
 
 import java.util.List;
@@ -31,15 +31,16 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class MessageServiceImpl implements MessageService {
 
-    private final MetaContentService metaService;
+    private final MetaContentServiceImpl metaService;
     private final ModelMapper modelMapper;
     private final MessageRepository messageRepository;
     private final BiConsumer<EventType, MessageReadDto> wsSender;
 
 
+    @Autowired
     public MessageServiceImpl(
             MessageRepository messageRepository,
-            MetaContentService metaService,
+            MetaContentServiceImpl metaService,
             ModelMapper modelMapper,
             WsSender wsSender
     ) {
@@ -76,18 +77,6 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findById(messageId).orElse(null);
     }
 
-
-    @Transactional
-    @Override
-    public boolean deleteMessage(Long messageId) {
-        return messageRepository.findById(messageId)
-                .map(entity -> {
-                    messageRepository.deleteById(messageId);
-                    return true;
-                })
-                .orElse(false);
-    }
-
     @Transactional
     @Override
     public Message createMessage(MessageCreateEditDto messageDto) {
@@ -115,5 +104,22 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findById(messageId);
     }
 
+    @Override
+    public List<MessageReadDto> findAllByAuthor(User author, Pageable pageable) {
+        return messageRepository.findAllByAuthor(author, pageable)
+                .stream().map(schedule -> modelMapper.map(schedule, MessageReadDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteMessage(Long messageId) {
+        return messageRepository.findById(messageId)
+                .map(entity -> {
+                    messageRepository.deleteById(messageId);
+                    return true;
+                })
+                .orElse(false);
+    }
 
 }

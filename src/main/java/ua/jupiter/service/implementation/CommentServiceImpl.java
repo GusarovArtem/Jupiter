@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.jupiter.database.entity.EventType;
 import ua.jupiter.database.entity.ObjectType;
 import ua.jupiter.database.entity.View;
+import ua.jupiter.database.entity.message.Comment;
 import ua.jupiter.database.repository.CommentRepository;
 import ua.jupiter.dto.create.CommentCreateEditDto;
 import ua.jupiter.dto.read.CommentReadDto;
@@ -36,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentReadDto createComment(CommentCreateEditDto commentDto) {
         return Objects.requireNonNull(Optional.of(commentDto)
-                .map(comment -> modelMapper.map(comment, CommentReadDto.class))
+                .map(comment -> modelMapper.map(comment, Comment.class))
                 .map(commentRepository::saveAndFlush)
                 .map(comment -> modelMapper.map(comment, CommentReadDto.class))
                 .map(savedComment -> {
@@ -47,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public boolean deleteMessage(Long id) {
+    public boolean deleteComment(Long id) {
         return commentRepository.findById(id)
                 .map(entity -> {
                     commentRepository.deleteById(id);
