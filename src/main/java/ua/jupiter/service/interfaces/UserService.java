@@ -9,5 +9,5 @@ public interface UserService {
 
     User create(User user);
 
-    User findById(String id);
+    User getById(String id);
 }

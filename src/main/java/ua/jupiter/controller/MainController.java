@@ -33,7 +33,7 @@ public class MainController {
     private final ObjectWriter profileWriter;
 
     @Autowired
-    public MainController(MessageServiceImpl messageService, UserServiceImpl userService, ObjectMapper mapper) {
+    public MainController(MessageServiceImpl messageService, ObjectMapper mapper, UserServiceImpl userService) {
         this.messageService = messageService;
         this.userService = userService;
 
@@ -49,18 +49,18 @@ public class MainController {
     @GetMapping
     public String main(
             Model model,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal User author
     ) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
-        if (user != null) {
-            User userFromDb = userService.findById(user.getId());
+        if (author != null) {
+            User userFromDb = userService.getById(author.getId());
             String serializedProfile = profileWriter.writeValueAsString(userFromDb);
             model.addAttribute("profile", serializedProfile);
 
             Sort sort = Sort.by(Sort.Direction.DESC, "id");
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
-            MessagePageDto messagePageDto = messageService.findAllUserMessages(pageRequest, user.getId());
+            MessagePageDto messagePageDto = messageService.getAllMessagesByAuthor(author, pageRequest);
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 

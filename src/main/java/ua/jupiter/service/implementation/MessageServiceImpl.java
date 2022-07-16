@@ -14,7 +14,10 @@ import ua.jupiter.database.entity.ObjectType;
 import ua.jupiter.database.entity.View;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.database.entity.user.User;
+import ua.jupiter.database.entity.user.UserSubscription;
 import ua.jupiter.database.repository.MessageRepository;
+import ua.jupiter.database.repository.SubscriptionRepository;
+import ua.jupiter.dto.MessagePageDto;
 import ua.jupiter.dto.create.MessageCreateEditDto;
 import ua.jupiter.dto.read.MessageReadDto;
 import ua.jupiter.service.interfaces.MessageService;
@@ -34,6 +37,7 @@ public class MessageServiceImpl implements MessageService {
     private final MetaContentServiceImpl metaService;
     private final ModelMapper modelMapper;
     private final MessageRepository messageRepository;
+    private final SubscriptionRepository subscriptionRepo;
     private final BiConsumer<EventType, MessageReadDto> wsSender;
 
 
@@ -42,23 +46,17 @@ public class MessageServiceImpl implements MessageService {
             MessageRepository messageRepository,
             MetaContentServiceImpl metaService,
             ModelMapper modelMapper,
-            WsSender wsSender
+            SubscriptionRepository subscriptionRepo, WsSender wsSender
     ) {
         this.messageRepository = messageRepository;
         this.metaService = metaService;
         this.modelMapper= modelMapper;
+        this.subscriptionRepo = subscriptionRepo;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, View.FullComment.class);
     }
 
-    @Override
-    public List<Object> findForChannels(Pageable pageable, List<String> usersId) {
-        Page<User> messages = messageRepository.findByAuthorIdIn(usersId, pageable);
-        return messages.stream().map(modelMapper -> messages).collect(Collectors.toList());
-    }
-
     @Transactional
-    @Override
-    public Optional<MessageReadDto> updateMessage(Long messageId, MessageReadDto messageDto) {
+    public MessageReadDto updateMessage(Long messageId, MessageReadDto messageDto) {
 
         return messageRepository.findById(messageId)
                 .map(messageFromDb -> {
@@ -69,12 +67,7 @@ public class MessageServiceImpl implements MessageService {
                 .map(message -> {
                     wsSender.accept(EventType.UPDATE, messageDto);
                     return message;
-                });
-    }
-
-    @Override
-    public Message getMessageById(Long messageId) {
-        return messageRepository.findById(messageId).orElse(null);
+                }).get();
     }
 
     @Transactional
@@ -90,28 +83,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageReadDto> getListMessages(Optional<String> optionalPrefixName) {
-        optionalPrefixName = optionalPrefixName.filter(prefixName -> !prefixName.trim().isEmpty());
-        return optionalPrefixName
-                .map(messageRepository::findAllByTextContainingIgnoreCase)
-                .orElseGet(messageRepository::findAll)
-                .stream().map(message -> modelMapper.map(message, MessageReadDto.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Optional<Message> findById(Long messageId) {
-        return messageRepository.findById(messageId);
-    }
-
-    @Override
-    public List<MessageReadDto> findAllByAuthor(User author, Pageable pageable) {
-        return messageRepository.findAllByAuthor(author, pageable)
-                .stream().map(schedule -> modelMapper.map(schedule, MessageReadDto.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     @Transactional
     public boolean deleteMessage(Long messageId) {
         return messageRepository.findById(messageId)
@@ -120,6 +91,30 @@ public class MessageServiceImpl implements MessageService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    @Override
+    public Message getById(Long messageId) {
+        return messageRepository.findById(messageId).get();
+    }
+
+    @Override
+    public MessagePageDto getAllMessagesByAuthor(User user, Pageable pageable) {
+        List<User> channels = subscriptionRepo.findBySubscriber(user)
+                .stream()
+                .filter(UserSubscription::isActive)
+                .map(UserSubscription::getChannel)
+                .collect(Collectors.toList());
+
+        channels.add(user);
+
+        Page<Message> page = messageRepository.findByAuthorIn(channels, pageable);
+
+        return new MessagePageDto(
+                page.getContent(),
+                pageable.getPageNumber(),
+                page.getTotalPages()
+        );
     }
 
 }
