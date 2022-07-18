@@ -1,24 +1,26 @@
 package ua.jupiter.service.interfaces;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.dto.MessagePageDto;
-import ua.jupiter.dto.create.MessageCreateEditDto;
-import ua.jupiter.dto.read.MessageReadDto;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface MessageService {
+    List<Message> findForUser(User userEntity);
 
-    MessageReadDto updateMessage(Long messageId, MessageReadDto message);
+    Optional<Message> updateMessage(Long messageId, Message message);
+
+    Optional<Message> getMessageById(Long messageId);
 
     boolean deleteMessage(Long messageId);
 
-    Message createMessage(MessageCreateEditDto message);
+    Message createMessage(Message message, User user);
 
-    Message getById(Long messageId);
+    List<Message> getListMessages(Optional<String> optionalPrefixName);
 
-    MessagePageDto getAllMessagesByAuthor(User user, Pageable pageable);
+    Optional<Message> findById(Long messageId);
 
 }
