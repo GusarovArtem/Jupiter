@@ -1,11 +1,9 @@
-package ua.jupiter.dto;
+package ua.jupiter.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ua.jupiter.database.entity.EventType;
-import ua.jupiter.database.entity.ObjectType;
 import ua.jupiter.database.entity.View;
 
 

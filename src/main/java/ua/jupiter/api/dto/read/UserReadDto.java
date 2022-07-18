@@ -1,19 +1,18 @@
-package ua.jupiter.dto.read;
+package ua.jupiter.api.dto.read;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 
-@Value
+@Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommentReadDto {
+public class UserReadDto {
 
-    Long id;
+    String id;
 
-    String text;
+    String name;
 
-    Long message;
-
-    UserReadDto author;
+    String userPicture;
 }

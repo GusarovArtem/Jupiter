@@ -1,14 +1,12 @@
-package ua.jupiter.dto.create;
+package ua.jupiter.api.dto.create;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ua.jupiter.dto.read.UserReadDto;
+import ua.jupiter.api.dto.read.UserReadDto;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentCreateEditDto {
 
@@ -16,5 +14,5 @@ public class CommentCreateEditDto {
 
     Long messageId;
 
-    UserReadDto author;
+    String authorId;
 }

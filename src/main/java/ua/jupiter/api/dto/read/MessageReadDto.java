@@ -1,4 +1,4 @@
-package ua.jupiter.dto.read;
+package ua.jupiter.api.dto.read;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
