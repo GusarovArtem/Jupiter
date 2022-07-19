@@ -1,4 +1,4 @@
-package ua.jupiter.api.dto;
+package ua.jupiter.http.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;

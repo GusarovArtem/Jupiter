@@ -1,55 +1,37 @@
 package ua.jupiter.config;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
-import org.springframework.context.annotation.Bean;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import ua.jupiter.database.entity.user.User;
-import ua.jupiter.database.repository.UserRepository;
-
-import java.time.LocalDateTime;
+import ua.jupiter.service.implementation.user.OAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableOAuth2Sso
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    OAuth2UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/login**", "/js/**", "/error**").permitAll()
+                .antMatchers("/","/auth", "/login**", "/js/**", "/error**", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
+                .and().logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll()
+                .oauth2Login()
+                .userInfoEndpoint().oidcUserService(userService)
+                .and()
                 .and()
                 .csrf().disable();
+
     }
 
-    @Bean
-    public PrincipalExtractor principalExtractor(UserRepository userRepository) {
-        return map -> {
-            String id = (String) map.get("sub");
-            User user = userRepository.findById(id).orElseGet(() -> {
-                User newUser = new User();
-
-                newUser.setId(id);
-                newUser.setName((String) map.get("name"));
-                newUser.setEmail((String) map.get("email"));
-                newUser.setGender((String) map.get("gender"));
-                newUser.setLocale((String) map.get("locale"));
-                newUser.setUserPicture((String) map.get("picture"));
-
-                return newUser;
-            });
-
-            user.setLastVisit(LocalDateTime.now());
-
-            return userRepository.save(user);
-        };
-    }
 }

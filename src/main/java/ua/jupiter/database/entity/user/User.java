@@ -1,42 +1,54 @@
 package ua.jupiter.database.entity.user;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 
+@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 @Data
-@Entity
-@Table(name = "usr")
+@EqualsAndHashCode(of = {"id"})
+@ToString(exclude = {"subscriptions", "subscribers"})
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = { "id" })
-@ToString(of = { "id", "name" })
-public class User {
+@Entity
+@Table(name = "usr")
+public class User implements Serializable {
+
+    @Serial
+    @Transient
+    private static final long serialVersionUID = 1L;
+
     @Id
     @JsonView(View.IdName.class)
-    private String id;
-    @JsonView(View.IdName.class)
-    private String name;
-    @JsonView(View.IdName.class)
-    private String userPicture;
-    private String email;
-    @JsonView(View.FullProfile.class)
-    private String gender;
-    @JsonView(View.FullProfile.class)
-    private String locale;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonView(View.FullProfile.class)
-    private LocalDateTime lastVisit;
+    String id;
 
+    @JsonView(View.IdName.class)
+    String name;
+
+    @JsonView(View.IdName.class)
+    String userPicture;
+    String email;
+
+    @JsonView(View.FullProfile.class)
+    String locale;
+
+    @JsonView(View.FullProfile.class)
+    LocalDateTime lastVisit;
+
+    @Builder.Default
     @JsonView(View.FullProfile.class)
     @OneToMany(
             mappedBy = "subscriber",
@@ -44,6 +56,7 @@ public class User {
     )
     private Set<UserSubscription> subscriptions = new HashSet<>();
 
+    @Builder.Default
     @JsonView(View.FullProfile.class)
     @OneToMany(
             mappedBy = "channel",
@@ -51,4 +64,6 @@ public class User {
             cascade = CascadeType.ALL
     )
     private Set<UserSubscription> subscribers = new HashSet<>();
+
+
 }
