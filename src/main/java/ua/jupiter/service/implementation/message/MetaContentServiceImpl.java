@@ -1,4 +1,4 @@
-package ua.jupiter.service.implementation;
+package ua.jupiter.service.implementation.message;
 
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.message.Message;
-import ua.jupiter.dto.MetaDto;
+import ua.jupiter.http.dto.MetaDto;
 import ua.jupiter.service.interfaces.MetaContentService;
 
 import java.util.regex.Matcher;
@@ -22,14 +22,10 @@ public class MetaContentServiceImpl implements MetaContentService {
     static Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
     static Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
 
+
     @Override
     public void fillMeta(Message message) {
         String text = message.getText();
-        message.setLink(null);
-        message.setLinkCover(null);
-        message.setLinkTitle(null);
-        message.setLinkDescription(null);
-
         Matcher matcher = URL_REGEX.matcher(text);
 
         if (matcher.find()) {

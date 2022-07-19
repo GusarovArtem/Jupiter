@@ -1,8 +1,12 @@
 spring:
+  main:
+    allow-circular-references: true
+
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/jupiter}
     username: ${SPRING_DATASOURCE_USERNAME:artem}
     password: ${SPRING_DATASOURCE_PASSWORD:admin-am}
+
   jpa:
     generate-ddl: true
     properties:
@@ -16,18 +20,6 @@ spring:
       initialize-schema: always
       table-name: SPRING_SESSION
       schema: classpath:session_tables.sql
-
-security:
-  oauth2:
-    client:
-      clientId: 642309214604-jqg753lnbgvdrcs9qfjfa8v0264pt3lj.apps.googleusercontent.com
-      clientSecret: ${clientSecret}
-      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-      clientAuthenticationScheme: form
-      scope: openid profile email
-    resource:
-      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
 
 server:
   port: 9000

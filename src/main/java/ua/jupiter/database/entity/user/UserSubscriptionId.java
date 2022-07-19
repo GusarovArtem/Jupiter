@@ -9,8 +9,8 @@ import ua.jupiter.database.entity.View;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Embeddable
 @Data
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSubscriptionId implements Serializable {

@@ -1,9 +1,7 @@
-package ua.jupiter.api.dto.create;
+package ua.jupiter.http.dto.create;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import ua.jupiter.api.dto.read.UserReadDto;
 
 @Data
 @Builder

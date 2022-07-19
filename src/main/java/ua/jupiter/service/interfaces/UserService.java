@@ -2,9 +2,9 @@ package ua.jupiter.service.interfaces;
 
 
 import org.springframework.stereotype.Service;
-import ua.jupiter.api.dto.read.ProfileReadDto;
+import ua.jupiter.http.dto.read.ProfileReadDto;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.api.dto.read.UserReadDto;
+import ua.jupiter.http.dto.read.UserReadDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +22,6 @@ public interface UserService {
 
     List<UserReadDto> getAllUsers();
 
-    User create(User user);
+    User createUser(User user);
 
 }

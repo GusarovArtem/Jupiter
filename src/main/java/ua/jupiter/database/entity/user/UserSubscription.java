@@ -2,6 +2,7 @@ package ua.jupiter.database.entity.user;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import ua.jupiter.database.entity.View;
 
 import javax.persistence.*;
@@ -11,36 +12,36 @@ import java.io.Serializable;
 @Entity
 @Data
 @EqualsAndHashCode(of = "id")
-@ToString(of = "id")
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
+@ToString(of = "id")
 public class UserSubscription implements Serializable {
     @EmbeddedId
     @JsonIgnore
-    private UserSubscriptionId id;
+    UserSubscriptionId id;
 
     @MapsId("channelId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonView(View.IdName.class)
     @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class
     )
-    private User channel;
+    User channel;
 
     @MapsId("subscriberId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonView(View.IdName.class)
     @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class
     )
-    private User subscriber;
+    User subscriber;
 
     @JsonView(View.IdName.class)
-    private boolean active;
+    boolean active;
 
     public UserSubscription(User channel, User subscriber) {
         this.channel = channel;

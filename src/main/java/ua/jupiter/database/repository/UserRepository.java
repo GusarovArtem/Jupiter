@@ -14,12 +14,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = { "subscriptions", "subscribers" })
     Optional<User> findById(String id);
 
-    @EntityGraph(attributePaths = { "subscriptions", "subscribers" })
-    User getById(String id);
-
-    @Query("select u from User u " +
-            "left join fetch  u.subscriptions  " +
-            "left join fetch u.subscribers  " +
-            "where u.id = :id")
+    @Query("SELECT u FROM User u LEFT JOIN FETCH  u.subscriptions LEFT JOIN FETCH u.subscribers WHERE u.id = :id")
     User getProfile(String id);
 }
