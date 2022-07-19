@@ -13,39 +13,56 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import * as Sentry from '@sentry/browser'
+
+import messagesApi from 'api/messages'
 
 export default {
-  props: ['messageAttr'],
+  props: ['messages', 'messageAttr'],
   data() {
     return {
       text: '',
-      id: null
+      id: '',
     }
   },
   watch: {
     messageAttr(newVal, oldVal) {
-      this.text = newVal.text
-      this.id = newVal.id
+      if (newVal === null){
+        this.text = ''
+        this.id = ''
+      } else {
+        this.text = newVal.text
+        this.id = newVal.id
+      }
     }
   },
   methods: {
-    ...mapActions(['addMessageAction', 'updateMessageAction']),
     save() {
       const message = {
         id: this.id,
         text: this.text
       }
-
       if (this.id) {
-        this.updateMessageAction(message)
+        messagesApi.update(message).then(result =>
+            result.json().then(data => {
+              const index = this.messages.findIndex(item => item.id === data.id)
+              this.messages.splice(index, 1, data)
+              this.text = ''
+              this.id = ''
+            })
+        )
       } else {
-        this.addMessageAction(message)
+        messagesApi.add(message).then(result =>
+            result.json().then(data => {
+              const index = this.messages.findIndex(item => item.id === data.id)
+              if (index > -1) {
+                this.messages.splice(index, 1, data)
+              } else {
+                this.messages.unshift(data)
+              }
+            })
+        )
+        this.text = ''
       }
-
-      this.text = ''
-      this.id = null
     }
   }
 }

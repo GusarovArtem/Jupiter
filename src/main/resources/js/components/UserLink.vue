@@ -2,6 +2,7 @@
   <router-link
       :to="`/user/${user.id}`"
       class="px-3"
+      style="text-decoration: none; color: inherit;"
   >
     <v-avatar
         v-if="user && user.userpic"
@@ -13,29 +14,21 @@
       >
     </v-avatar>
 
-    <v-avatar
-        v-else
-        :size="`${size || 36}px`"
-        color="indigo"
-    >
-      <v-icon dark>account_circle</v-icon>
-    </v-avatar>
-    <span>{{ userName }}</span>
+    <span :class="`ml-3 text-${textStyle}`">{{ userName }}</span>
   </router-link>
 </template>
 
 <script>
 export default {
   name: 'UserLink',
-  props: ['user', 'size'],
+  props: ['user', 'size', 'textStyle'],
   computed: {
     userName() {
-      return this.user ? this.user.name : 'unknown'
+      return this.user.name
     }
   },
 }
 </script>
 
 <style scoped>
-
 </style>

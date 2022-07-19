@@ -3,7 +3,6 @@
       width="560"
       height="315"
       :src="targetSrc"
-      frameborder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
   ></iframe>
@@ -23,5 +22,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

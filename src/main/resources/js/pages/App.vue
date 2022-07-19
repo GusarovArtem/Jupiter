@@ -1,80 +1,111 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title>Jupiter</v-toolbar-title>
-      <v-btn flat
+    <v-app-bar app
+               absolute
+               color="indigo darken-2"
+               dark
+    >
+      <v-toolbar-title class="text-h5">Jupiter</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text
              v-if="profile"
              :disabled="$route.path === '/'"
-             @click="showMessages">
+             @click="showMessages"
+             class="ml-5"
+      >
         Messages
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn flat
+      <v-btn text
+             v-if="profile"
+             :disabled="$route.path === '/users'"
+             @click="showSearch">
+        Search
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn text
              v-if="profile"
              :disabled="$route.path === '/user'"
              @click="showProfile">
-        {{profile.name}}
+        {{ profile.name }}
       </v-btn>
+
       <v-btn v-if="profile" icon href="/logout">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
-    </v-toolbar>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { addHandler } from 'util/ws'
+
+
+import {addHandler} from "../util/ws";
 
 export default {
-  computed: mapState(['profile']),
   methods: {
-    ...mapMutations([
-      'addMessageMutation',
-      'updateMessageMutation',
-      'removeMessageMutation',
-      'addCommentMutation'
-    ]),
     showMessages() {
       this.$router.push('/')
     },
     showProfile() {
       this.$router.push('/user')
+    },
+    showSearch() {
+      this.$router.push('/users')
+    }
+  },
+  data() {
+    return {
+      messages: frontendData.messages,
+      profile: frontendData.profile
     }
   },
   created() {
     addHandler(data => {
+      console.log(data)
       if (data.objectType === 'MESSAGE') {
-        switch (data.eventType) {
-          case 'CREATE':
-            this.addMessageMutation(data.body)
-            break
-          case 'UPDATE':
-            this.updateMessageMutation(data.body)
-            break
-          case 'REMOVE':
-            this.removeMessageMutation(data.body)
-            break
-          default:
+        const index = this.messages.findIndex(item => item.id === data.body.id)
+        if (index > -1) {
+          if (data.eventType === 'UPDATE')
+            this.messages.splice(index, 1, data.body)
+          else if (data.eventType === 'REMOVE')
+            this.messages.splice(index, 1)
+          else
             console.error(`Looks like the event type if unknown "${data.eventType}"`)
+        } else if (data.objectType === 'COMMENT') {
+          console.log(this.messages)
+          const indMessage = this.messages.findIndex(item => item.id === data.body.message)
+          console.log(indMessage)
+          if (indMessage > -1) {
+            if (data.eventType === 'CREATE') {
+              const comments = this.messages[indMessage].comments
+              console.log(comments)
+              const indComment = comments.findIndex(item => item.id === data.body.id)
+              console.log(indComment)
+              if (indComment > -1) {
+                comments.splice(indComment, 1, data.body)
+              } else {
+                comments.push(data.body)
+              }
+            } else if (data.eventType === 'REMOVE') {
+              const comments = this.messages[indMessage].comments
+              const indComment = comments.findIndex(item => item.id === data.body.id)
+              if (indComment > -1) {
+                comments.splice(indComment, 1)
+              }
+            }
+          }
         }
-      } else if (data.objectType === 'COMMENT') {
-        switch (data.eventType) {
-          case 'CREATE':
-            this.addCommentMutation(data.body)
-            break
-          default:
-            console.error(`Looks like the event type if unknown "${data.eventType}"`)
-        }
-      } else {
-        console.error(`Looks like the object type if unknown "${data.objectType}"`)
       }
     })
   },
-  beforeMount() {
+  beforeMount()
+  {
     if (!this.profile) {
       this.$router.replace('/auth')
     }

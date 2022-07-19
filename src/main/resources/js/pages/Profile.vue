@@ -11,7 +11,6 @@
             <v-layout column>
               <v-flex>{{profile.name}}</v-flex>
               <v-flex>{{profile.locale}}</v-flex>
-              <v-flex>{{profile.gender}}</v-flex>
               <v-flex>{{profile.lastVisit}}</v-flex>
               <v-flex>
                 {{profile.subscriptions && profile.subscriptions.length}} subscriptions
@@ -33,6 +32,7 @@
         <v-btn
             v-if="!isMyProfile"
             @click="changeSubscription"
+            class="mt-5"
         >
           {{isISubscribed ? 'Unsubscribe' : 'Subscribe'}}
         </v-btn>
@@ -42,24 +42,27 @@
 </template>
 
 <script>
-import profileApi from 'api/profile'
+import Vue from "vue";
 
 export default {
   name: 'Profile',
   data() {
     return {
-      profile: {}
+      profile: {},
+      oauthUser: frontendData.profile,
     }
   },
   computed: {
     isMyProfile() {
       return !this.$route.params.id ||
-          this.$route.params.id === this.$store.state.profile.id
+          this.$route.params.id === this.oauthUser.id
     },
     isISubscribed() {
+      console.log(this.profile.subscribers)
       return this.profile.subscribers &&
           this.profile.subscribers.find(subscription => {
-            return subscription.subscriber === this.$store.state.profile.id
+            console.log(subscription)
+            return subscription.subscriberId === this.oauthUser.id
           })
     }
   },
@@ -69,16 +72,18 @@ export default {
     }
   },
   methods: {
-    async changeSubscription() {
-      const data = await profileApi.changeSubscription(this.profile.id)
-      this.profile = await data.json()
+    changeSubscription() {
+      Vue.http.post(`/api/profile/change-subscription/${this.profile.id}`).then(result =>
+          result.json().then(data => {
+            this.profile = data
+          }))
     },
-    async updateProfile() {
-      const id = this.$route.params.id || this.$store.state.profile.id
-
-      const data = await profileApi.get(id)
-      this.profile = await data.json()
-
+    updateProfile() {
+      const id = this.$route.params.id || this.oauthUser.id
+      this.$resource('/api/profile{/id}').get({id: id}).then(result =>
+          result.json().then(data => {
+            this.profile = data
+          }))
       this.$forceUpdate()
     }
   },

@@ -2,8 +2,9 @@
   <v-container>
     <v-layout justify-space-around>
       <v-list>
-        <v-list-tile
+        <v-list-item
             v-for="item in subscriptions"
+            :key="item.id"
         >
           <user-link
               :user="item.subscriber"
@@ -15,14 +16,14 @@
           >
             {{item.active ? "Dismiss" : "Approve"}}
           </v-btn>
-        </v-list-tile>
+        </v-list-item>
       </v-list>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import profileApi from 'api/profile'
+import Vue from "vue";
 import UserLink from 'components/UserLink.vue'
 
 export default {
@@ -30,18 +31,18 @@ export default {
   components: {UserLink},
   data() {
     return {
-      subscriptions: []
+      subscriptions: [],
+      oauthUser: frontendData.profile
     }
   },
   methods: {
-    async changeSubscriptionStatus(subscriberId) {
-      await profileApi.changeSubscriptionStatus(subscriberId)
+    changeSubscriptionStatus(subscriberId) {
+      Vue.http.post(`/api/profile/change-status/${subscriberId}`)
 
       const subscriptionIndex = this.subscriptions.findIndex(item =>
           item.subscriber.id === subscriberId
       )
       const subscription = this.subscriptions[subscriptionIndex]
-
       this.subscriptions = [
         ...this.subscriptions.slice(0, subscriptionIndex),
         {
@@ -52,13 +53,14 @@ export default {
       ]
     }
   },
-  async beforeMount() {
-    const resp = await profileApi.subscriberList(this.$store.state.profile.id)
-    this.subscriptions = await resp.json()
+  beforeMount() {
+    this.$resource('/api/profile/get-subscribers{/id}').get({id: this.oauthUser.id}).then(result =>
+        result.json().then(data => {
+          this.subscriptions = data
+        }))
   }
 }
 </script>
 
 <style scoped>
-
 </style>
