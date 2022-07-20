@@ -1,6 +1,8 @@
 package ua.jupiter.service.implementation.message;
 
+import lombok.AccessLevel;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,10 +16,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class MetaContentServiceImpl implements MetaContentService {
 
-    static final String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
-    static final String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
+    static String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
+    static String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
 
     static Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
     static Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);

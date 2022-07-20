@@ -2,9 +2,9 @@ package ua.jupiter.service.interfaces;
 
 
 import org.springframework.stereotype.Service;
-import ua.jupiter.http.dto.read.ProfileReadDto;
+import ua.jupiter.http.dto.read.user.ProfileReadDto;
 import ua.jupiter.database.entity.user.User;
-import ua.jupiter.http.dto.read.UserReadDto;
+import ua.jupiter.http.dto.read.user.UserReadDto;
 
 import java.util.List;
 import java.util.Optional;

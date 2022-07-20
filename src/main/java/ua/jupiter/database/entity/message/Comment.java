@@ -16,12 +16,12 @@ import javax.persistence.*;
 
 
 @Data
-@EqualsAndHashCode( of = {"id"})
+@Entity
 @Builder
+@Table(name = "comment")
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comment")
-@Entity
+@EqualsAndHashCode( of = {"id"})
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Comment extends Auditing {

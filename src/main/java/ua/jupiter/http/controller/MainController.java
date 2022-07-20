@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.jupiter.http.dto.read.UserReadDto;
+import ua.jupiter.http.dto.read.user.UserReadDto;
 import ua.jupiter.database.entity.user.OAuth2User;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.service.implementation.message.MessageServiceImpl;

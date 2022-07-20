@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.jupiter.http.dto.create.CommentCreateEditDto;
-import ua.jupiter.http.dto.read.CommentReadDto;
+import ua.jupiter.http.dto.read.message.CommentReadDto;
 import ua.jupiter.service.implementation.message.CommentServiceImpl;
 import ua.jupiter.service.interfaces.CommentService;
 

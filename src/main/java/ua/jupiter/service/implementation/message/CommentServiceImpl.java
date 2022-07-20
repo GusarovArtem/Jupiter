@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.jupiter.http.dto.EventType;
 import ua.jupiter.http.dto.ObjectType;
 import ua.jupiter.http.dto.create.CommentCreateEditDto;
-import ua.jupiter.http.dto.read.CommentReadDto;
+import ua.jupiter.http.dto.read.message.CommentReadDto;
 import ua.jupiter.http.util.WsSender;
 import ua.jupiter.database.entity.message.Comment;
 import ua.jupiter.database.repository.CommentRepository;
@@ -36,7 +36,6 @@ public class CommentServiceImpl implements CommentService {
         this.wsSender = wsSender.getSenderNew(ObjectType.COMMENT);
     }
 
-//  TODO fix 45 line, change Comment.class to CommentCreateEditDto.class
     @Override
     @Transactional
     public CommentReadDto createComment(CommentCreateEditDto commentDto) {

@@ -12,10 +12,10 @@ import java.util.List;
 @Repository
 public interface UserSubscriptionRepository extends JpaRepository<UserSubscription, UserSubscriptionId> {
 
-    @Query("select chan from UserSubscription u " +
-            "left join u.subscriber sub " +
-            "left join u.channel chan " +
-            "where  sub.id = :userId and u.active = true")
+    @Query("SELECT chan FROM UserSubscription u " +
+            "LEFT JOIN u.subscriber sub " +
+            "LEFT JOIN u.channel chan " +
+            "WHERE  sub.id = :userId AND u.active = true")
     List<User> findBySubscriber(String userId);
 
     List<UserSubscription> findByChannel(User channel);

@@ -8,7 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.jupiter.http.dto.create.CommentCreateEditDto;
-import ua.jupiter.http.dto.read.CommentReadDto;
+import ua.jupiter.http.dto.read.message.CommentReadDto;
 import ua.jupiter.database.entity.user.OAuth2User;
 import ua.jupiter.service.implementation.message.CommentServiceImpl;
 

@@ -21,12 +21,12 @@ public interface MessageRepository extends
 
     @Override
 //    @EntityGraph("withCommentsAndAuthor")
-    @Query("select m from Message m " +
-            "left join fetch m.comments c " +
-            "join fetch m.author u " +
-            "left join u.subscribers " +
-            "left join u.subscriptions " +
-            "where m.id = :messageId")
+    @Query("SELECT m FROM Message m " +
+            "LEFT JOIN FETCH m.comments c " +
+            "JOIN FETCH m.author u " +
+            "LEFT JOIN u.subscribers " +
+            "LEFT JOIN u.subscriptions " +
+            "WHERE m.id = :messageId")
     Optional<Message> findById(Long messageId);
 
     List<Message> findAllByTextContainingIgnoreCase(String prefixName);

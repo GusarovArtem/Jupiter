@@ -1,8 +1,9 @@
-package ua.jupiter.http.dto.read;
+package ua.jupiter.http.dto.read.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Value;
+import ua.jupiter.http.dto.read.user.UserReadDto;
 
 import java.util.List;
 
