@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import ua.jupiter.database.entity.message.Message;
-import ua.jupiter.http.dto.MetaDto;
+import ua.jupiter.api.dto.MetaDto;
 import ua.jupiter.service.interfaces.MetaContentService;
 
 import java.util.regex.Matcher;

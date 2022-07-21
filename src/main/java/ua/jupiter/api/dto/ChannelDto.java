@@ -1,4 +1,4 @@
-package ua.jupiter.http.dto;
+package ua.jupiter.api.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package ua.jupiter.http.dto;
+package ua.jupiter.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonView;

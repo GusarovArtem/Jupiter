@@ -23,8 +23,8 @@ spring:
           google:
             clientId: 642309214604-jqg753lnbgvdrcs9qfjfa8v0264pt3lj.apps.googleusercontent.com
             clientSecret: ${clientSecret}
-            redirectUri: http://localhost:9000/auth
-            scope: openid,email,profile
+            redirectUri: http://localhost:9000/auth2/authorization/google
+            scope: openid, profile, email
 
   session:
     jdbc:

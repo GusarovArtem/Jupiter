@@ -1,4 +1,4 @@
-package ua.jupiter.http.dto.read.user;
+package ua.jupiter.api.dto.read.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
@@ -7,9 +7,11 @@ import lombok.Data;
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserSubscriptionReadDto {
+public class UserReadDto {
 
-    private String channelId;
+    String id;
 
-    private String subscriberId;
+    String name;
+
+    String userPicture;
 }

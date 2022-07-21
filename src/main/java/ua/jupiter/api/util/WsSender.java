@@ -1,13 +1,13 @@
-package ua.jupiter.http.util;
+package ua.jupiter.api.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import ua.jupiter.http.dto.WsEventDto;
-import ua.jupiter.http.dto.EventType;
-import ua.jupiter.http.dto.ObjectType;
+import ua.jupiter.api.dto.WsEventDto;
+import ua.jupiter.api.dto.EventType;
+import ua.jupiter.api.dto.ObjectType;
 
 import java.util.function.BiConsumer;
 

@@ -2,10 +2,10 @@
   <v-container>
 
     <div class="d-flex align-start flex-column">Please sign in with
-      <v-btn
-          href="/oauth2/authorization/google"
+      <v-btn style="color: #ffffff"
+          href="/auth2/authorization/google"
           depressed
-          color="primary"
+          color="#453e3e"
           class="mt-2"
       >Google
       </v-btn>

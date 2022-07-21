@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     changeSubscriptionStatus(subscriberId) {
-      Vue.http.post(`/api/profile/change-status/${subscriberId}`)
+      Vue.http.post(`/profile/change-status/${subscriberId}`)
 
       const subscriptionIndex = this.subscriptions.findIndex(item =>
           item.subscriber.id === subscriberId
@@ -54,7 +54,7 @@ export default {
     }
   },
   beforeMount() {
-    this.$resource('/api/profile/get-subscribers{/id}').get({id: this.oauthUser.id}).then(result =>
+    this.$resource('/profile/get-subscribers{/id}').get({id: this.oauthUser.id}).then(result =>
         result.json().then(data => {
           this.subscriptions = data
         }))

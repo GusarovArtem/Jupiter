@@ -1,4 +1,4 @@
-package ua.jupiter.http.dto;
+package ua.jupiter.api.dto;
 
 public enum ObjectType {
     MESSAGE, COMMENT

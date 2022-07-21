@@ -45,7 +45,7 @@ export default {
     }
   }
   // beforeMount() {
-  //   this.$resource('/api/messages').get().then(result =>
+  //   this.$resource('/messages').get().then(result =>
   //       result.json().then(data => {
   //         this.messages = data
   //       }))

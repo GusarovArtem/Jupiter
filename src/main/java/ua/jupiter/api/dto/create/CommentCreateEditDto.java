@@ -1,4 +1,4 @@
-package ua.jupiter.http.dto.create;
+package ua.jupiter.api.dto.create;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

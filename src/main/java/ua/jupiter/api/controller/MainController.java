@@ -1,4 +1,4 @@
-package ua.jupiter.http.controller;
+package ua.jupiter.api.controller;
 
 
 import lombok.AccessLevel;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.jupiter.http.dto.read.user.UserReadDto;
+import ua.jupiter.api.dto.read.user.UserReadDto;
 import ua.jupiter.database.entity.user.OAuth2User;
 import ua.jupiter.database.entity.message.Message;
 import ua.jupiter.service.implementation.message.MessageServiceImpl;
@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
 @RequestMapping("/")
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class MainController {
 
     @NonFinal

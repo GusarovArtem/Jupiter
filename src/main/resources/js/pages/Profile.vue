@@ -73,14 +73,14 @@ export default {
   },
   methods: {
     changeSubscription() {
-      Vue.http.post(`/api/profile/change-subscription/${this.profile.id}`).then(result =>
+      Vue.http.post(`/profile/change-subscription/${this.profile.id}`).then(result =>
           result.json().then(data => {
             this.profile = data
           }))
     },
     updateProfile() {
       const id = this.$route.params.id || this.oauthUser.id
-      this.$resource('/api/profile{/id}').get({id: id}).then(result =>
+      this.$resource('/profile{/id}').get({id: id}).then(result =>
           result.json().then(data => {
             this.profile = data
           }))

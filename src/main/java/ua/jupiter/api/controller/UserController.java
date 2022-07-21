@@ -1,4 +1,4 @@
-package ua.jupiter.http.controller;
+package ua.jupiter.api.controller;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.jupiter.http.dto.read.user.UserReadDto;
+import ua.jupiter.api.dto.read.user.UserReadDto;
 import ua.jupiter.database.entity.user.OAuth2User;
 import ua.jupiter.service.implementation.user.UserServiceImpl;
 

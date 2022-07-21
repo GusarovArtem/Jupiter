@@ -1,4 +1,4 @@
-package ua.jupiter.http.controller;
+package ua.jupiter.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AccessLevel;

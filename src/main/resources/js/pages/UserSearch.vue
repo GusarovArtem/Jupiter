@@ -36,7 +36,7 @@ export default {
     }
   },
   beforeMount() {
-    Vue.http.get('/api/search/users').then(result =>
+    Vue.http.get('/search/users').then(result =>
         result.json().then(data => {
           this.users.splice(0, this.users.length)
           this.users.push(...data)

@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app
                absolute
-               color="indigo darken-2"
+               color="#453e3e"
                dark
     >
       <v-toolbar-title class="text-h5">Jupiter</v-toolbar-title>
